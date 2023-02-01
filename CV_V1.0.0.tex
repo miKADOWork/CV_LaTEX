@@ -1,0 +1,537 @@
+%-----------------------------------------------------------------------------------------------------------------------------------------------%
+%	The MIT License (MIT)
+%
+%	Copyright (c) 2015 Jan Küster
+%
+%	Permission is hereby granted, free of charge, to any person obtaining a copy
+%	of this software and associated documentation files (the "Software"), to deal
+%	in the Software without restriction, including without limitation the rights
+%	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%	copies of the Software, and to permit persons to whom the Software is
+%	furnished to do so, subject to the following conditions:
+%	
+%	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+%	THE SOFTWARE.
+%	
+%
+%-----------------------------------------------------------------------------------------------------------------------------------------------%
+
+
+%============================================================================%
+%
+%	DOCUMENT DEFINITION
+%
+%============================================================================%
+
+%we use article class because we want to fully customize the page and dont use a cv template
+\documentclass[10pt,A4]{article}	
+
+
+%----------------------------------------------------------------------------------------
+%	ENCODING
+%----------------------------------------------------------------------------------------
+
+%we use utf8 since we want to build from any machine
+\usepackage[utf8]{inputenc}		
+
+%----------------------------------------------------------------------------------------
+%	LOGIC
+%----------------------------------------------------------------------------------------
+
+% provides \isempty test
+\usepackage{xifthen}
+
+%----------------------------------------------------------------------------------------
+%	FONT
+%----------------------------------------------------------------------------------------
+
+\usepackage[default]{raleway}
+
+% set font default
+\renewcommand*\familydefault{\sfdefault} 	
+\usepackage[T1]{fontenc}
+
+% more font size definitions
+\usepackage{moresize}		
+
+
+%----------------------------------------------------------------------------------------
+%	PAGE LAYOUT  DEFINITIONS
+%----------------------------------------------------------------------------------------
+
+%debug page outer frames
+%\usepackage{showframe}			
+
+
+%define page styles using geometry
+\usepackage[a4paper]{
+						geometry,						
+					} % fin del a4paper		
+
+% for example, change the margins to 2 inches all round
+\geometry{	top=1cm,
+ 			bottom=-0.5cm, 
+ 			left= 1cm,
+ 			right=1cm
+ 		} % fin geometry
+
+%use customized header
+\usepackage{fancyhdr}				
+\pagestyle{fancy}
+\usepackage{changepage}
+
+%less space between header and content
+\setlength{\headheight}{-5pt}		
+
+
+\newcommand{\padding}{1cm}
+\newcommand{\innerwidth}{\linewidth-\padding-\padding}
+
+%indentation is zero
+\setlength{\parindent}{0mm}
+
+%----------------------------------------------------------------------------------------
+%	TABLE /ARRAY DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+%for layouting tables
+\usepackage{multicol}			
+\usepackage{multirow}
+
+%extended aligning of tabular cells
+\usepackage{array}
+
+\newcolumntype{x}[1]{%
+>{\raggedleft\hspace{0pt}}p{#1}}%
+
+
+%----------------------------------------------------------------------------------------
+%	GRAPHICS DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+%for header image
+\usepackage{graphicx}
+
+% Para los links de contacto
+\usepackage{hyperref}
+
+%for floating figures
+\usepackage{wrapfig}
+\usepackage{float}
+
+%for drawing graphics
+\usepackage{tikz}				
+\usetikzlibrary{shapes, backgrounds,mindmap, trees}
+
+
+%----------------------------------------------------------------------------------------
+%	Color DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+%\usepackage{transparent}
+\usepackage{color}
+
+% Colores del envellecedor de la cabecera	
+
+% Azul oscuro
+\definecolor{blueDark}{RGB}{70,130,180}
+
+% Azul intermedio
+\definecolor{blueMedium}{RGB}{123,104,238}
+
+% Azul claro
+\definecolor{blueBright}{RGB}{0,255,255}
+% ------------------------------------
+
+
+%light background / accent color
+\definecolor{softcol}{RGB}{105,105,105}
+
+% light bg
+\definecolor{light}{RGB}{210, 210, 210}
+
+% gold color 
+\definecolor{Dorado}{RGB}{218,165,32}
+%============================================================================%
+%
+%
+%	DEFINITIONS
+%
+%
+%============================================================================%
+
+%----------------------------------------------------------------------------------------
+% 	HEADER
+%----------------------------------------------------------------------------------------
+
+% remove top header line
+\renewcommand{\headrulewidth}{0pt} 
+
+%remove botttom header line
+\renewcommand{\footrulewidth}{0pt}	  	
+
+%remove pagenum
+\renewcommand{\thepage}{}	
+
+%remove section num		
+\renewcommand{\thesection}{}			
+
+%----------------------------------------------------------------------------------------
+% 	ARROW GRAPHICS in Tikz
+%----------------------------------------------------------------------------------------
+
+
+
+
+% a six pointed arrow poiting to the left
+\newcommand{\tzlarrow}{(0,0) -- (0.2,0) -- (0.3,0.2) -- (0.2,0.4) -- (0,0.4) -- (0.1,0.2) -- cycle;}	
+
+% include the left arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\larrow}[1]
+{\begin{tikzpicture}[scale=0.58]
+	 \filldraw[fill=#1!100,draw=#1!100!black]  \tzlarrow
+ \end{tikzpicture}
+}
+
+% Insignia para un campo
+\newcommand{\Insignia}[1]
+{
+\begin{tikzpicture}[scale=0.58]
+	 \node at (0, 0) {\rotatebox{90}{\larrow{#1}}};
+ \end{tikzpicture}
+}
+
+
+% a six pointed arrow poiting to the right
+\newcommand{\tzrarrow}{ (0,0.2) -- (0.1,0) -- (0.3,0) -- (0.2,0.2) -- (0.3,0.4) -- (0.1,0.4) -- cycle;}
+
+% include the right arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\rarrow}[1]
+{\begin{tikzpicture}[scale=0.7]
+	 \filldraw[fill=#1!100,draw=#1!100!black]  \tzrarrow
+ \end{tikzpicture}
+}
+
+% Creamos un campo para una de las redes 
+\newcommand{\Red}[6]{
+	\begin{tikzpicture}[scale=0.7]
+		
+		% Imagen mas el nombre de la red
+			\node at (0.5, 0) {\includegraphics[scale=#3]{#2}};
+			
+			\node at (#4, 0) {{\Large \bf #1}};
+			
+			\node at (#5, -1.1) {{\bf  #6}};
+	
+ \end{tikzpicture}
+}
+
+% Creamos un campo con los links de linkedin Github y infojobs
+\newcommand{\MisRedes}[1]
+{\begin{tikzpicture}[scale=0.7]
+		
+		% Linkedin
+			\node at (5, 0) {\Red{\color{orange}{Linkedin}}{Imagenes/Linkedin.png}{0.3}{3}{2.5}{\color{#1}{\href{https://www.linkedin.com/in/fernandoalaejos}{linkedin.com/in/fernandoalaejos}}}};
+			
+		% Github
+			\node at (15, 0) {\Red{\color{orange}{Github}}{Imagenes/Github.png}{0.47}{2.7}{2.5}{\color{#1}{\href{https://www.github.com/miKADOWork}{\textbf{github.com/miKADOWork}}}}};
+			
+		% Gmail
+			\node at (24, 0) {\Red{\color{orange}{Gmail}}{Imagenes/Gmail.png}{0.16}{2.5}{1.3}{\color{#1}{fermailforwork@gmail.com}}};
+	
+ \end{tikzpicture}
+}
+
+
+% Lineas esteticas añadidas para decorar el pie del documento
+\newcommand{\decoracion}
+{
+\begin{tikzpicture}[scale=0.7][c]
+	\filldraw[fill=blue, fill opacity = 0.45, line width=0.0mm] (-1.7, -0.25) [bend left=20] to (12,0.5) [bend right=20] to (35, 0.25) [bend left=10] to (12,0.75) [bend right=10] to (-1, -0.25) -- cycle;
+	
+	\filldraw[fill=blueMedium, fill opacity = 0.6, line width=0.0mm] (-1, -0.5)  [bend left=20] to (12,-0.5) [bend right=20] to (35, 0.75) [bend left=10] to (12,0.75) [bend right=10] to (-1, -0.5)  [bend right=10] to cycle;
+	
+	\filldraw[fill=blueDark, fill opacity = 0.7, line width=0.0mm] (-1, -0.25)  [bend left=20] to (12,0.75) [bend right=20] to (35, 0.75) [bend left=10] to (12,0.5) [bend right=10] to (-1, -0.5)  -- cycle;
+ \end{tikzpicture}
+}
+
+
+
+
+% dibujamos las lineas anteriores rotadas
+\newcommand{\decoracionGirada}{
+	\rotatebox{180}{\decoracion}
+}
+
+% Creamos unas lineas esteticas para el encabezado
+\newcommand{\linea}
+{\begin{tikzpicture}[scale=0.7][t]
+
+		\filldraw[fill = blueDark, fill opacity = 0.65, line width =0pt] (0, -2.35) -- (0, 1.25) -- (30, 1.25) -- (30, 0.25) [bend right=5] to cycle;
+		
+		\filldraw[fill = black, fill opacity = 1, line width =0pt] (0, -2.35) -- (0, 1.5) -- (30, 1.5) -- (30., 1) [bend right=5] to cycle;
+		\fill[fill = green, fill opacity = 0.65] (0, -2.35) [bend right=5] to (30, 1.25) --  (30., 1) [bend left=5] to cycle;
+		\rotatebox{5}{\filldraw[fill = blueDark, fill opacity = 0.65, line width =0pt] (0, -2.35) -- (0, 1.25) -- (30, 1.25) -- (30, 0.25) [bend right=5] to cycle;
+		
+		\filldraw[fill = black, fill opacity = 1, line width =0pt] (0, -2.35) -- (0, 1.5) -- (30, 1.5) -- (30., 1) [bend right=5] to cycle;	
+		}
+		
+		\rotatebox{30}{\fill[fill = green, fill opacity = 0.65] (0, -2.35) [bend right=5] to (30, 1.25) --  (30., 1) [bend left=5] to cycle;}
+		
+		\rotatebox{15}{\fill[fill = green, fill opacity = 0.65] (0, -2.35) [bend right=5] to (30, 1.25) --  (30., 1) [bend left=5] to cycle;}
+ \end{tikzpicture}
+}
+
+
+% Creamos unas lineas esteticas para el fondo de la carta de presentación
+\newcommand{\lineaBis}
+{\begin{tikzpicture}[scale=0.7][t]
+
+		
+		
+		\filldraw[fill = blueDark, fill opacity = 0.65, line width =0pt] (0, -2.35) -- (0, 1.25) -- (30, 1.25) -- (30, 0.25) [bend right=5] to cycle;
+		
+		\filldraw[fill = black, fill opacity = 1, line width =0pt] (0, -2.35) -- (0, 1.5) -- (30, 1.5) -- (30., 1) [bend right=5] to cycle;
+		\fill[fill = green, fill opacity = 0.65] (0, -2.35) [bend right=5] to (30, 1.25) --  (30., 1) [bend left=5] to cycle;
+		\rotatebox{5}{\filldraw[fill = blueDark, fill opacity = 0.65, line width =0pt] (0, -2.35) -- (0, 1.25) -- (30, 1.25) -- (30, 0.25) [bend right=5] to cycle;
+		
+		\filldraw[fill = black, fill opacity = 1, line width =0pt] (0, -2.35) -- (0, 1.5) -- (30, 1.5) -- (30., 1) [bend right=5] to cycle;	
+		}
+		
+		\rotatebox{30}{\fill[fill = green, fill opacity = 0.65] (0, -2.35) [bend right=5] to (35, 1.25) --  (35., 1) [bend left=5] to cycle;}
+		
+		\rotatebox{15}{\fill[fill = green, fill opacity = 0.65] (0, -2.35) [bend right=5] to (30, 1.25) --  (30., 1) [bend left=5] to cycle;}
+ \end{tikzpicture}
+}
+
+% Crea una entrada en la barra de informacion
+\newcommand{\entrada}[4]
+{
+	\begin{tabular*}{0.6\linewidth}{ p{1cm} x{1cm}}
+\textbf{#2} \textcolor{white}{(#3)}&\textcolor{white}{#1}\\
+	\end{tabular*}
+\vspace{-12pt}
+\vspace{6pt}
+	\begin{tabular*}{1\textwidth}{l}
+		 \larrow{green}  #3\\[4.5pt]
+		 \larrow{green}  #4\\[6pt]
+	\end{tabular*}
+}
+
+% Fondo de la barra de informacion
+\newcommand{\FondoInfo}{
+	\begin{tikzpicture}[scale=0.79][c]
+		
+		% barra lateral
+		\draw[fill = blue, fill opacity = 0.5, line width =0pt] (0,0) -- (0, 25.5) -- (8,25.5) -- (8,-3.5) -- cycle;
+		\draw[fill = green, fill opacity = 0.4] (2,0) -- (0, 25.5) -- (8,25.5) -- (8,-2.5) -- cycle;
+		\draw[fill = blueDark, fill opacity = 0.65,] (1,0) -- (0, 25.5) -- (8,25.5) -- (8,-3.1) -- cycle;
+		
+		
+		\node at (3.65, 21.) {\includegraphics[scale=0.15]{Imagenes/foto_cv.jpeg}};
+		\node at (3.65, 8.75) {
+		\begin{tabular*}{0.25\textwidth}{l}
+		\larrow{white} \hspace{-0.5cm}\larrow{blue}  \hspace{0.1cm}\color{white}{\bf \Large Residéncia:}\\
+		 		\hspace{0.25cm}\larrow{green} {\bf Barcelona (08005)} \\
+		 		\\
+		 		\larrow{white} \hspace{-0.5cm}\larrow{blue}  \hspace{0.1cm}\color{white}{\bf \Large Teléfono:}\\
+		 		\hspace{0.25cm}\larrow{green} \color{black}{\bf +34 XXXXXXXXX}\\
+		 		\\
+		 		\larrow{white} \hspace{-0.5cm}\larrow{blue}  \hspace{0.1cm}\color{white}{\bf \Large Idiomas:}\\
+		 		   \hspace{0.25cm} \larrow{green} {\bf Inglés: B2} 
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Castellano: Nativo}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Catalán: Nativo}\\
+		 		\\
+		 		\larrow{white} \hspace{-0.5cm}\larrow{blue}  \hspace{0.1cm}\color{white}{\bf \Large Habilidades:}\\
+		 		   \hspace{0.25cm} \larrow{green} {\bf Proactivo} 
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Responsable}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Organizado}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Reflexivo}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Autocrítico}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Capacidad Analítica}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Comunicativo}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Resolutivo}\\
+		 		\\ 
+		 		\larrow{white} \hspace{-0.5cm}\larrow{blue} \hspace{0.1cm}\color{white}{\bf \Large Hobbies:}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Deportes}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Naturaleza}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Viajar}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Historia}
+		 		\\ \hspace{0.25cm} \larrow{green} {\bf Música}\\
+			\end{tabular*}};
+		
+	\end{tikzpicture}
+}
+
+
+%----------------------------------------------------------------------------------------
+%	 CV EVENT
+%----------------------------------------------------------------------------------------
+
+% creates a stretched box as cv entry headline followed by two paragraphs about 
+% the work you did
+% param 1:	event time i.e. 2014 or 2011-2014 etc.
+% param 2:	event name (what did you do?)
+% param 3:	institution (where did you work / study)
+% param 4:	what was your position
+% param 5:	some words about your contributions
+%
+
+\newcommand{\cabezera}[1]{
+	\begin{tabular*}{0.6\linewidth}{ p{20cm} x{2cm}}
+	\hspace{0.65cm}
+	\textbf{\color{orange}\Large #1} &\\[4pt]
+	\end{tabular*}
+	
+\vspace{-0.45cm}
+\hspace{1cm}
+\textcolor{blueMedium}{ \rule{13cm}{0.05cm}}
+}
+
+
+\newcommand{\cvevent}[9]
+{
+	\cabezera{#1}
+
+\vspace{-0.15cm}
+\hspace{1.5cm}
+	\begin{tabular*}{1\textwidth}{l}
+		 \larrow{green}  \color{white}{\bf #2}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf #3}\\[4.5pt]
+		 		\\
+		 \larrow{green}  \color{white}{\bf #4}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange} \color{white}{\bf #5}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange} \color{white}{\bf #6}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange} \color{white}{\bf #7}\\[4.5pt]
+		 		\\
+		 \larrow{green} \color{white}{\bf #8}\\[4.5pt]
+		 \hspace{1cm}\larrow{orange} \color{white}{\bf #9}\\[4.5pt]
+		 	
+	\end{tabular*}
+\vspace{-4pt}
+}
+
+
+\newcommand{\cveventAmpliado}[6]
+{
+	\cabezera{#1}
+	
+\vspace{-0.15cm}
+\hspace{1.5cm}
+	\begin{tabular*}{1\textwidth}{l}
+		 \larrow{green}  \color{white}{\bf #3}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf Manejo de Ofimática}\\[4.5pt]
+		 	\\
+		 \larrow{green}  \color{white}{\bf #4}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf #5}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf Aplicaciones prácticas de las Matemáticas para modelizar}\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf Uso teórico y práctico de programación:}\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf C y C++}\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf Python}\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf Java} (Programación Orientada a Objetos)\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf R con RStudio} (Estudio y tratado de datos y Series Temporales)\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf SageMath} (Resolución de Ecuaciones Diferenciales)\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf LaTEX} (Edición de documentos científicos)\\[4.5pt]
+		 		\hspace{2cm}\larrow{blueMedium}  \color{white}{\bf Excel avanzado} (Microsoft Office en general)\\[4.5pt]		 		
+		 	\\	
+		 \larrow{green}  \color{white}{\bf #6}\\[6pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf Excel TOTAL} (32 horas)\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf The Complete SQL Bootcamp } (9 horas)\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf 100 Days of Code: Python} (64 horas)\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf The Git \& Github Bootcamp} (17 horas)\\[4.5pt]
+		 	\hspace{1cm}\larrow{orange}  \color{white}{\bf Microsoft Power BI (11 horas)} - Cursando Actualmente\\[6pt]
+	\end{tabular*}
+\vspace{-4pt}
+}
+
+
+
+
+
+%----------------------------------------------------------------------------------------
+	%  Inicio del documento
+%----------------------------------------------------------------------------------------
+
+
+\begin{document}
+
+%use our custom fancy header definitions
+\pagestyle{fancy}	
+\pagecolor{black}
+
+
+%----------------------------------------------------------------------------------------
+	% Carta de presentacion
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+	% CV 
+%----------------------------------------------------------------------------------------
+
+\newpage
+% Cabezera
+\begin{minipage}[c][0.085\textheight][c]{\linewidth}
+
+		\vspace{-0.1cm}
+		\hspace{-0.25cm} 
+	\linea
+		\vspace{-2.5cm}
+\begin{center} 
+		\vspace{-0.65cm}
+	\HUGE{\bf\textcolor{white}{\textsc{Fernando Alaejos García}} } \textcolor{orange}{\rule[-1mm]{1mm}{0.9cm}} \HUGE{\textcolor{white}{\textsc{CV}}}
+\end{center}
+	\vspace{0.5cm}
+	
+\end{minipage}
+
+\vspace{-5cm}
+% Cuerpo del CV: Campos del cv
+\begin{minipage}[c][0.5\textheight][c]{0.5\linewidth}
+
+	\vspace{18cm}
+	
+	\cveventAmpliado{\Insignia{yellow} Formación:}{}{Bachillerato Científico-Técnico (La Salle Bonanova): }{Grado de Matemáticas (UAB): }{Mención en Matemática Fundamental (UAB)}{Cursos de Programación (Udemy):}
+		
+		\vspace{1cm}
+		
+	\cvevent{\Insignia{yellow} Experiencia:}{Caritas, Finestra Oberta, Cotolengo}{Voluntariados}{Etra Bonal}{En el CGMU gestionando incidencias}{Elaboración de informes de incidencias}{Envió de informes a los técnicos municipales}{Profesor particular, Administrativo en Clínica Dental (GestDent)}{Múltiples Empleos}
+	
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+	% Fondo con la estructura que contiene la imagen 
+%----------------------------------------------------------------------------------------
+	\vspace{1cm}
+	\hspace{14.5cm}
+\begin{minipage}[c][0.085\textheight][c]{\linewidth}
+	\FondoInfo
+\end{minipage}
+
+\vspace{12.5cm}
+
+
+%----------------------------------------------------------------------------------------------
+	% Pie de página: Decoración + Redes
+%----------------------------------------------------------------------------------------------
+
+\begin{minipage}[b][0.02\textheight][b]{\linewidth}
+	\vspace{-10cm}
+	\hspace{-2cm}
+		\decoracion
+ 
+	\vspace{-2cm}
+	\hspace{0.25cm}
+		\MisRedes{blueDark}
+\end{minipage}
+					
+\end{document}
